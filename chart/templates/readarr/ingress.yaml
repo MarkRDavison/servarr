@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: readarr-ingress
+  labels:
+    app: servarr
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - readarr.markdavison.kiwi
+      secretName: wildcard-markdavison-kiwi
+  rules:
+  - host: readarr.markdavison.kiwi
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: readarr-svc
+            port:
+              number: 80

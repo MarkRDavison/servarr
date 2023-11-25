@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-svc
+  labels:
+    app: radarr
+spec:
+  ports:
+  - port: 80
+    targetPort: {{ .Values.radarr.port }}
+    protocol: TCP
+  selector:
+    app: radarr

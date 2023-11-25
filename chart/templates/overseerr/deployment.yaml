@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overseerr-dep
+  labels:
+    app: overseerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  overseerr
+  template:
+    metadata:
+      labels:
+        app: overseerr
+    spec:
+      containers:
+      - name: overseerr
+        image: sctx/overseerr:latest
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: "1005"
+        - name: PGID
+          value: "1005"
+        ports:
+        - containerPort: {{ .Values.overseerr.port }}
+        volumeMounts:
+        - name: servarr
+          mountPath: /app/config
+          subPath: config/overseerr
+      volumes:
+      - name: servarr
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/servarr

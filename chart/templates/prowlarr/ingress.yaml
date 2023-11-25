@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prowlarr-ingress
+  labels:
+    app: servarr
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - prowlarr.markdavison.kiwi
+      secretName: wildcard-markdavison-kiwi
+  rules:
+  - host: prowlarr.markdavison.kiwi
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prowlarr-svc
+            port:
+              number: 80

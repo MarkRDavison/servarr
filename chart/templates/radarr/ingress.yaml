@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr-ingress
+  labels:
+    app: servarr
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - radarr.markdavison.kiwi
+      secretName: wildcard-markdavison-kiwi
+  rules:
+  - host: radarr.markdavison.kiwi
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: radarr-svc
+            port:
+              number: 80

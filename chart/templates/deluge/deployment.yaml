@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deluge-dep
+  labels:
+    app: deluge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  deluge
+  template:
+    metadata:
+      labels:
+        app: deluge
+    spec:
+      containers:
+      - name: deluge
+        image: linuxserver/deluge
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: "1005"
+        - name: PGID
+          value: "1005"
+        ports:
+        - containerPort: {{ .Values.deluge.port }}
+        volumeMounts:
+        - name: servarr
+          mountPath: /data/torrents
+          subPath: data/torrents
+        - name: servarr
+          mountPath: /config
+          subPath: config/deluge
+      volumes:
+      - name: servarr
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/servarr

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: deluge-ingress
+  labels:
+    app: servarr
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - deluge.markdavison.kiwi
+      secretName: wildcard-markdavison-kiwi
+  rules:
+  - host: deluge.markdavison.kiwi
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: deluge-svc
+            port:
+              number: 80

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-dep
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: cr.hotio.dev/hotio/radarr
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: "1005"
+        - name: PGID
+          value: "1005"
+        ports:
+        - containerPort: {{ .Values.radarr.port }}
+        volumeMounts:
+        - name: servarr
+          mountPath: /data
+          subPath: data
+        - name: servarr
+          mountPath: /config
+          subPath: config/radarr
+        - name: old
+          mountPath: /oldmedia
+      volumes:
+      - name: servarr
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/servarr
+      - name: old
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/media

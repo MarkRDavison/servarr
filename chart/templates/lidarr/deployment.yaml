@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr-dep
+  labels:
+    app: lidarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      containers:
+      - name: lidarr
+        image: cr.hotio.dev/hotio/lidarr
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: "1005"
+        - name: PGID
+          value: "1005"
+        ports:
+        - containerPort: {{ .Values.lidarr.port }}
+        volumeMounts:
+        - name: servarr
+          mountPath: /data
+          subPath: data
+        - name: servarr
+          mountPath: /config
+          subPath: config/lidarr
+        - name: old
+          mountPath: /oldmedia
+      volumes:
+      - name: servarr
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/servarr
+      - name: old
+        nfs:
+          server: nfs.markdavison.kiwi
+          path: /mnt/ironwolf/media
