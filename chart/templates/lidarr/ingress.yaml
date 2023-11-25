@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: lidarr-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     external-dns.alpha.kubernetes.io/target: "prod-ingress.markdavison.kiwi"
   labels:
     app: servarr
