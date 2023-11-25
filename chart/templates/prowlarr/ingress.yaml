@@ -2,6 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prowlarr-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    external-dns.alpha.kubernetes.io/target: "prod-ingress.markdavison.kiwi"
   labels:
     app: servarr
 spec:
@@ -9,7 +12,7 @@ spec:
   tls:
     - hosts:
       - prowlarr.markdavison.kiwi
-      secretName: wildcard-markdavison-kiwi
+      secretName: prowlarr-tls
   rules:
   - host: prowlarr.markdavison.kiwi
     http:

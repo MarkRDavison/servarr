@@ -2,6 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: lidarr-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    external-dns.alpha.kubernetes.io/target: "prod-ingress.markdavison.kiwi"
   labels:
     app: servarr
 spec:
@@ -9,7 +12,7 @@ spec:
   tls:
     - hosts:
       - lidarr.markdavison.kiwi
-      secretName: wildcard-markdavison-kiwi
+      secretName: lidarr-tls
   rules:
   - host: lidarr.markdavison.kiwi
     http:
