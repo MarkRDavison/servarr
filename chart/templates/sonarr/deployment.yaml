@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sonarr
-        image: cr.hotio.dev/hotio/sonarr
+        image: ghcr.io/hotio/sonarr:release
         imagePullPolicy: Always
         env:
         - name: PUID
