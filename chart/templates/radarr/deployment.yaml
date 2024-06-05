@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: radarr
-        image: cr.hotio.dev/hotio/radarr
+        image: ghcr.io/hotio/radarr:release
         imagePullPolicy: Always
         env:
         - name: PUID
