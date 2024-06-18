@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: prowlarr
-        image: cr.hotio.dev/hotio/prowlarr
+        image: ghcr.io/hotio/prowlarr:release
         imagePullPolicy: Always
         env:
         - name: PUID
